@@ -1,0 +1,47 @@
+window {
+    background-color: rgba(0, 40, 80, 0.4); /* Bajamos la opacidad */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Quita cualquier sombra extra que pueda estar haciendo ruido */
+    box-shadow: none; 
+}
+
+#input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 10px;
+}
+
+#inner-box {
+    margin: 10px;
+    background-color: transparent;
+}
+
+#entry {
+    padding: 5px;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+#entry:selected {
+    /* realsatado cuando una app está como seleccionada */
+    background: linear-gradient(
+        to right,
+        rgba(0, 200, 255, 0.4),
+        rgba(0, 100, 255, 0.2)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    outline: none;
+}
+
+#text {
+    margin: 5px;
+    color: white;
+    /* brillo aennas notable */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+#text:selected {
+    color: #ffffff;
+    font-weight: bold;
+}
