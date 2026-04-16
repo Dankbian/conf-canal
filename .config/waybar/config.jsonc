@@ -45,9 +45,26 @@
 },
 
 "clock": {
-"format": "{:%H:%M - %a | %d %b %Y}",
-"tooltip": false
+	"interval": 1,
+    "format": " {:%I:%M %p}", // formato 12H
+    //"format": " {:%H:%M:%S}",// 24H
+	"format-alt": " {:%H:%M   %Y, %d %B, %A}",
+	"tooltip-format": "<tt><small>{calendar}</small></tt>",
+	"calendar": {
+		"mode": "year",
+		"mode-mon-col": 3,
+		"weeks-pos": "right",
+		"on-scroll": 1,
+		"format": {
+			"months":   "<span color='#ffffff'><b>{}</b></span>",      /* Blanco puro para los meses */
+			       "days":     "<span color='#b3e5fc'>{}</span>",              /* Azul cielo suave para los días */
+			       "weeks":    "<span color='#00ff9f'><b>W{}</b></span>",      /* Verde brillante (como tu botón de workspace) */
+			       "weekdays": "<span color='#00d7ff'><b>{}</b></span>",      /* Cian vibrante para los nombres de los días */
+			       "today":    "<span color='#ffffff' background='#0078ff'><b><u>{}</u></b></span>" /* Resalte azul con texto blanco para hoy */
+		}
+	}
 },
+
 
 "network": {
 "format-wifi" : "󰤢 {bandwidthDownBits}",
