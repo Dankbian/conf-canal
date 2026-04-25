@@ -107,7 +107,7 @@ window#waybar {
 #battery {
 	color: #00e5ff;
 	text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 1);
-	font-weight: 700; /* 900 es muy grueso y "empasta" las letras pequeñas */
+	font-weight: 700; /* 900 es muy grueso y no deja notar las letras pequeñas */
 }
 
 #battery.warning {
@@ -123,7 +123,7 @@ window#waybar {
 #pulseaudio {
     color: #00e5ff;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 1);
-    font-weight: 700; /* 900 es muy grueso y "empasta" las letras pequeñas */
+    font-weight: 700; /* 900 es muy grueso  */
 }
 
 /* red */
@@ -131,14 +131,14 @@ window#waybar {
     color: #9eff1d;
     /* x y blur color */
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 1);
-    font-weight: 700; /* 900 es muy grueso y "empasta" las letras pequeñas */
+    font-weight: 700; /* 900 es muy grueso */
 }
 
-/* Esto ataca directamente al contenedor del calendario */
+/* Esto es para el contenedor del calendario */
 tooltip {
-    background-color: rgba(0, 45, 90, 0.4); /* Azul medio transparente */
+    background-color: rgba(0, 45, 90, 0.4); /* azul medio transparente */
     border-radius: 15px;
-    border: 2px solid rgba(0, 255, 255, 0.5); /* Borde cian brillante */
+    border: 2px solid rgba(0, 255, 255, 0.5); /* borde cian brillante */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
