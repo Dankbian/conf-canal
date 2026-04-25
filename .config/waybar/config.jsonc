@@ -58,9 +58,9 @@
 		"format": {
 			"months":   "<span color='#ffffff'><b>{}</b></span>",      /* Blanco puro para los meses */
 			       "days":     "<span color='#b3e5fc'>{}</span>",              /* Azul cielo suave para los días */
-			       "weeks":    "<span color='#00ff9f'><b>W{}</b></span>",      /* Verde brillante (como tu botón de workspace) */
+			       "weeks":    "<span color='#00ff9f'><b>W{}</b></span>",      /* Verde brillante chillón aca bien eco */
 			       "weekdays": "<span color='#00d7ff'><b>{}</b></span>",      /* Cian vibrante para los nombres de los días */
-			       "today":    "<span color='#ffffff' background='#0078ff'><b><u>{}</u></b></span>" /* Resalte azul con texto blanco para hoy */
+			       "today":    "<span color='#ffffff' background='#0078ff'><b><u>{}</u></b></span>" /* Resalte azul con texto blanco para hoy nota: casi no se nota, quizas cambiar luego jeej*/
 		}
 	}
 },
