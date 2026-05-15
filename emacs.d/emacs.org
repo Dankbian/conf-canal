@@ -1,1 +1,7 @@
-Configuraciones de emacs frutiger aero del canal - aún en correcciones -
+* Configuraciones de emacs frutiger aero del canal - aún en correcciones -
+De momento hay errores en:
+- Colores
+- Los triangulos para titulos en org-mode
+- Pretty tables
+
+Probablemente no use este en el video, sino mi personalización personal
