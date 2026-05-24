@@ -10,19 +10,6 @@
 ;; Version: 1.0.0
 ;; Created: 29th November 2013
 
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 ;;; Commentary:
 
 ;; This replaces the characters - | and + in `org-mode' tables with
@@ -64,57 +51,46 @@ The order of the blocks is:
                  (string :tag "Custom")))
 
 (defsubst org-pretty-table-ul-corner ()
-  "Return upper left corner character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 0)))
 
 (defsubst org-pretty-table-ur-corner ()
-  "Return upper right corner character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 1)))
 
 (defsubst org-pretty-table-ll-corner ()
-  "Return lower left corner character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 2)))
 
 (defsubst org-pretty-table-lr-corner ()
-  "Return lower right corner character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 3)))
 
 (defsubst org-pretty-table-df-t ()
-  "Return down facing T character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 4)))
 
 (defsubst org-pretty-table-lf-t ()
-  "Return left facing T character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 5)))
 
 (defsubst org-pretty-table-uf-t ()
-  "Return up facing T character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 6)))
 
 (defsubst org-pretty-table-rf-t ()
-  "Return right facing T character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 7)))
 
 (defsubst org-pretty-table-cross ()
-  "Return cross character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 8)))
 
 (defsubst org-pretty-table-hb ()
-  "Return horizontal bar character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 9)))
 
 (defsubst org-pretty-table-vb ()
-  "Return vertical bar character as a string."
   (declare (pure t))
   (make-string 1 (aref org-pretty-table-charset 10)))
 
@@ -132,24 +108,18 @@ Used by jit-lock for dynamic highlighting."
     (goto-char start)
     (let (table-end)
       (while (re-search-forward org-pretty-table-regexp end t)
-        ;; reached the end of the current table
         (if (and table-end
                  (> (point) table-end))
             (setq table-end nil))
 
-        ;; check if the current match is a table if we are not in a
-        ;; table right now
         (unless (and (not table-end)
                      (not (save-match-data
                             (org-at-table-p))))
 
-          ;; get the end of the table if we found a new table, so we
-          ;; don't have to check (org-at-table-p) again until then
           (unless table-end
             (save-match-data
               (setq table-end (org-table-end))))
 
-          ;; determine the context of the character
           (let ((match (match-string 0)))
             (cond
              ((equal "-" match)
@@ -275,13 +245,35 @@ Used by jit-lock for dynamic highlighting."
   "Remove box-drawing compositions from table at point."
   (org-pretty-table-unpropertize-region (org-table-begin) (org-table-end)))
 
+;; ============================================================
+;; PATCH: reemplaza la función original que tenía el bug.
+;;
+;; Original:
+;;   desactiva modo → limpia → alinea → reactiva modo
+;;   El problema: reactivar solo llama jit-lock-register,
+;;   que es perezoso y nunca refontifica la región "limpia".
+;;
+;; Fix:
+;;   Guardamos beg/end ANTES de tocar nada, luego después de
+;;   alinear llamamos propertize-region directamente.
+;; ============================================================
 (defun org-pretty-table-align (oldfun &rest args)
-  (unwind-protect
-      (progn
-        (org-pretty-table-mode -1)
-        (org-pretty-table-unpropertize-table)
-        (apply oldfun args))
-    (org-pretty-table-mode 1)))
+  "Align org table and immediately re-apply box-drawing glyphs.
+This replaces the original which relied on jit-lock lazily
+refontifying — which never happened because the region was
+already considered clean after alignment."
+  (let ((beg (condition-case nil (org-table-begin) (error nil)))
+        (end (condition-case nil (org-table-end)   (error nil))))
+    ;; Limpia propiedades visuales para que org vea ASCII puro
+    (when (and beg end)
+      (org-pretty-table-unpropertize-region beg end))
+    ;; Alinea con los caracteres reales
+    (apply oldfun args)
+    ;; Actualiza end porque org-table-align puede cambiar el tamaño
+    (setq end (condition-case nil (org-table-end) (error end)))
+    ;; Aplica los glifos AHORA, sin esperar a jit-lock
+    (when (and beg end)
+      (org-pretty-table-propertize-region beg end))))
 
 ;;; Minor mode:
 
