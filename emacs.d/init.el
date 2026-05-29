@@ -239,7 +239,7 @@
   :ensure t
   :config
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner (expand-file-name "~/.emacs.d/ascii/intro.txt"))
+  (setq dashboard-startup-banner (expand-file-name "~/.emacs.d/ascii/logo.txt"))
   (setq dashboard-center-content t)
   (setq dashboard-items '((recents   . 0)
                            (projects  . 0)
@@ -353,6 +353,7 @@
 ;;; ==================== Preámbulo LaTeX automático ====================
 
 (require 'subr-x)
+(setq user-full-name (or user-full-name "Dankbian"))
 
 (use-package autoinsert
   :ensure nil
@@ -370,6 +371,7 @@
            (author (or user-full-name "Dankbian")))
       (concat
        "#+TITLE: "  title  "\n"
+       "#+AUTHOR: " author "\n\n"
        "#+LANGUAGE: es\n"
        "#+OPTIONS: toc:t num:t\n"
        "#+LATEX_CLASS: article\n"
@@ -445,26 +447,23 @@
   :hook (org-mode . toc-org-enable))
 
 
-;;; ==================== Tablas bonitas ====================
+;;; ==================== Tablas bonitas (org-pretty-table parcheado) ====================
 
-;; org-pretty-table es externo (no está en MELPA).
-;; Solo se carga si existe la ruta local; si no, se omite sin error.
-(let ((pretty-table-path (expand-file-name "~/.emacs.d/org-pretty-table")))
+;; Usamos nuestra versión parcheada de org-pretty-table.
+;; El parche corrige org-pretty-table-align para que llame
+;; directamente a propertize-region después de alinear,
+;; en vez de depender de jit-lock que nunca refontificaba.
+;;
+;; Instrucciones:
+;; Copia el archivo org-pretty-table.el parcheado a:
+;;   ~/.emacs.d/packetes_externos_descargados/org-pretty-table/
+(let ((pretty-table-path
+       (expand-file-name "~/.emacs.d/org-pretty-table")))
   (when (file-directory-p pretty-table-path)
     (add-to-list 'load-path pretty-table-path)
     (require 'org-pretty-table nil t)
-    (add-hook 'org-mode-hook #'org-pretty-table-mode)
-
-    (defun my/org-pretty-table-refresh ()
-      "Re-aplica org-pretty-table si estamos en una tabla."
-      (when (and (bound-and-true-p org-pretty-table-mode)
-                 (fboundp 'org-pretty-table--fontify)
-                 (derived-mode-p 'org-mode)
-                 (org-at-table-p))
-        (org-pretty-table--fontify)))
-
-    (add-hook 'post-command-hook #'my/org-pretty-table-refresh)))
-
+    (when (fboundp 'org-pretty-table-mode)
+      (add-hook 'org-mode-hook #'org-pretty-table-mode))))
 
 ;;; ==================== Resaltado de fila en tablas ====================
 
