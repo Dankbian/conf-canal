@@ -458,7 +458,7 @@
 ;; Copia el archivo org-pretty-table.el parcheado a:
 ;;   ~/.emacs.d/packetes_externos_descargados/org-pretty-table/
 (let ((pretty-table-path
-       (expand-file-name "~/.emacs.d/org-pretty-table")))
+       (expand-file-name "~/.emacs.d/paquetes_externos_descargados/org-pretty-table")))
   (when (file-directory-p pretty-table-path)
     (add-to-list 'load-path pretty-table-path)
     (require 'org-pretty-table nil t)
