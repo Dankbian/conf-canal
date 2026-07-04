@@ -48,7 +48,13 @@
       select-enable-clipboard t)
 
 
-;;; ==================== Calidad de vida general ====================
+;;; ==================== PRIORIDADES ====================
+(setq org-modern-priority-faces
+      '((?A . (:background "#ff5555" :foreground "#000000"))
+        (?B . (:background "#f1fa8c" :foreground "#000000"))
+        (?C . (:background "#50fa7b" :foreground "#000000"))))
+        
+;;; ==================== MISC ====================
 
 (electric-pair-mode 1)
 (run-with-timer 0 60 (lambda () (save-some-buffers t)))
@@ -662,6 +668,16 @@
 (setenv "PATH" (concat (expand-file-name "~/.local/bin") ":" (getenv "PATH")))
 
 
+;;; ==================== Ejecutar codigo en org ====================
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((shell . t)
+   (python . t)
+   (emacs-lisp . t)))
+
+(setq org-babel-python-command "python3")
+(setq org-babel-default-header-args:python '((:results . "output")))
 ;;; ==================== EMMS (música) ====================
 
 (use-package emms
